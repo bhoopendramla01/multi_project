@@ -4,22 +4,27 @@ class ProductController extends CI_Controller
 {
     public function addProduct()
     {
-        return $this->load->view("addProduct");
+        $this->load->model('CategoryModel');
+        $categories = $this->CategoryModel->all();
+        return $this->load->view("addProduct",["categories"=>$categories]);
     }
 
     public function storeProduct()
     {
-        echo "FFDDDDD";
-        // $this->load->model("AuthModel");
-        // $this->form_validation->set_rules("name", "Name", "required");
-        // $this->form_validation->set_rules("email", "Email", "required|valid_email");
-        // $this->form_validation->set_rules("phone", "Phone", "required|numeric");
-        // $this->form_validation->set_rules("address", "Address", "required");
-        // $this->form_validation->set_rules("password", "Password", "required");
+        // print_r($this->input->post());
+        $this->load->model('CategoryModel');
+        $categories = $this->CategoryModel->all();
+        // print_r($categories);
+        $this->load->model("ProductModel");
+        $this->form_validation->set_rules("name", "Name", "required");
+        $this->form_validation->set_rules("category", "Category", "required");
+        $this->form_validation->set_rules("price", "Price", "required|numeric");
+        $this->form_validation->set_rules("qty", "Qty", "required");
+        $this->form_validation->set_rules("image", "Image", "required");
 
-        // if ($this->form_validation->run() == FALSE) {
-        //     $this->load->view("register");
-        // } else {
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view("addProduct",["categories"=>$categories]);
+        } //else {
         //     $formArray = array();
         //     $formArray["name"] = $this->input->post("name");
         //     $formArray["email"] = $this->input->post("email");
